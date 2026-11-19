@@ -108,11 +108,11 @@ cor(liquor_errs$arima, liquor_errs$ets)
 # Part 4 – VAR vs. BVAR
 
 
-# ---- 4.1a Read FRED-QD (data/fredqd_2026-09.csv from Canvas) ----
+# ---- 4.1a Read FRED-QD 
 qd_raw <- read_csv("data/fredqd_2026-09.csv", show_col_types = FALSE) |>
   slice(-(1:2))
 
-# ---- 4.1b Build the eight series ----
+# ---- 4.1b Build the eight series 
 growth <- function(x) 100 * difference(log(x))
 
 qd <- qd_raw |>
@@ -139,7 +139,7 @@ origins <- 120:(N - 1)
 actual <- y[121:N, ]
 
 length(origins)
-qd$date[c(121, N)]   # first and last forecast dates
+qd$date[c(121, N)]   
 
 # ---- 4.2 OLS VARs ----
 var_ols_fc <- function(z, p) {
@@ -200,14 +200,13 @@ saveRDS(var_results, "results/var_results.rds")
 
 var_results |> knitr::kable(digits = 3)
 
-# ---- 4.3c DM tests (column order: gdp=1 cons=2 inv=3 emp=4 infl=5 unrate=6 ffr=7 gs10=8) ----
+# ---- 4.3c DM test
 # GDP growth
 e_var4 <- actual[, "gdp"] - fc_var4[, 1]
 e_bvar <- actual[, "gdp"] - fc_bvar_03[, 1]
 dm_gdp <- forecast::dm.test(e_var4, e_bvar, h = 1, power = 2)
 dm_gdp
 
-# Second variable: federal funds rate (change the name AND the column number to test another)
 e_var4_ffr <- actual[, "ffr"] - fc_var4[, 7]
 e_bvar_ffr <- actual[, "ffr"] - fc_bvar_03[, 7]
 dm_ffr <- forecast::dm.test(e_var4_ffr, e_bvar_ffr, h = 1, power = 2)
@@ -215,7 +214,6 @@ dm_ffr
 
 saveRDS(list(gdp = dm_gdp, ffr = dm_ffr), "results/var_dm_tests.rds")
 
-# COMMIT #5: "Part 4: VAR vs BVAR horse race"
 
 # =====================================================================
 # Part 5 – Factor model with FRED-MD

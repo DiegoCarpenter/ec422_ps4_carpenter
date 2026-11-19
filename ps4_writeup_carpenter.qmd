@@ -130,11 +130,8 @@ The combination did not improve the accuracy of the forecasts. The RMSE and MAE 
 
 ## VAR vs. BVAR
 
-<!--
-4.1c: 120 forecasts per variable; first 1990 Q1, last 2019 Q4.
--->
 
-WRITE: number of forecasts per variable and first/last forecast dates.
+4.1: We will produce forecasts for each variable. The first forecast is on GDP, and the last forecast is on the 10-year treasury yield. 
 
 ```{r}
 var_results <- readRDS("results/var_results.rds")
@@ -155,7 +152,7 @@ Fair estimate? No: you picked the winner (and lambda) using this same sample -> 
 ("winner's curse"); you'd need a fresh holdout.
 -->
 
-WRITE: VAR(1) vs VAR(4) (and why the smaller model can win); BVAR(0.3) vs VAR(4) and vs VAR(1); what happens at lambda = 0.05; is the winner's RMSE a fair estimate?
+The VAR that forecasts better is the VAR(1) model, which wins 7 of the 8 variables. The reason for this is that VAR(4) has many more coefficients to estimate, which adds variance that outweighs the bias. The smaller model may forecast better because it has less estimation variance. 
 
 ```{r}
 var_dm <- readRDS("results/var_dm_tests.rds")
@@ -163,7 +160,7 @@ var_dm$gdp
 var_dm$ffr
 ```
 
-WRITE: DM conclusions for GDP and your second variable; how this changes how you read the RMSE table.
+BVAR(4) with lambda = 0.3 is the best model for GDP and the federal funds rate. The DM statistic for GDP is 2.08, with a p-value of 0.037. This means that we reject the null hypothesis. The DM statistic for the federal funds rate is 4.12, with a p-value of 0.00004. This means that we also reject the null hypothesis. 
 
 ## Factor Model
 
