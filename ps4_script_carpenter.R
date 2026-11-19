@@ -88,6 +88,7 @@ forecast::dm.test(liquor_errs$arima, liquor_errs$ets,    h = 1, power = 2)
 forecast::dm.test(liquor_errs$arima, liquor_errs$snaive, h = 1, power = 2)
 
 
+
 # Part 3 – Forecast combination
 
 
@@ -101,11 +102,11 @@ liquor_combo_fc |>
 
 cor(liquor_errs$arima, liquor_errs$ets)
 
-# COMMIT #4: "Part 3: forecast combination"
 
-# =====================================================================
+
+
 # Part 4 – VAR vs. BVAR
-# =====================================================================
+
 
 # ---- 4.1a Read FRED-QD (data/fredqd_2026-09.csv from Canvas) ----
 qd_raw <- read_csv("data/fredqd_2026-09.csv", show_col_types = FALSE) |>
