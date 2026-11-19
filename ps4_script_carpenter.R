@@ -215,9 +215,9 @@ dm_ffr
 saveRDS(list(gdp = dm_gdp, ffr = dm_ffr), "results/var_dm_tests.rds")
 
 
-# =====================================================================
+
 # Part 5 – Factor model with FRED-MD
-# =====================================================================
+
 
 # ---- 5.1a Read FRED-MD (data/fredmd_2026-09.csv from Canvas) ----
 md_raw <- read_csv("data/fredmd_2026-09.csv", show_col_types = FALSE)
@@ -315,7 +315,5 @@ cpi_race <- direct_race("CPIAUCSL")
 cpi_race
 saveRDS(cpi_race, "results/cpi_race.rds")
 
-100 * (1 - cpi_race$RMSE_FA / cpi_race$RMSE_AR)   # % RMSE reduction
+100 * (1 - cpi_race$RMSE_FA / cpi_race$RMSE_AR)   
 
-# COMMIT #6: "Part 5: factor model and direct CPI forecast"
-# Then write the .qmd (COMMIT #7: "Draft write-up"), render, and do the final commit (Part 7).

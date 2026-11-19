@@ -191,13 +191,8 @@ dim(fm)
 tcode[c("INDPRO", "PAYEMS", "CPIAUCSL", "FEDFUNDS")]
 ```
 
-<!--
-INDPRO 5 = growth rate; PAYEMS 5 = growth rate; CPIAUCSL 6 = change in monthly inflation;
-FEDFUNDS 2 = first difference. The fed funds rate is already a percent and sits near zero for
-long stretches, so it's differenced in percentage points rather than logged.
--->
+INDPRO is transformed by taking the log and then taking the first difference. PAYEMS is transformed by taking the log and then taking the first difference. CPIAUCSL is transformed by taking the log and then taking the first difference. FEDFUNDS is transformed by taking the first difference. FEDFUNDS differs from INDPRO because it is a rate, so it is not appropriate to take the log of it. 
 
-WRITE: one sentence per series on its transformation; why FEDFUNDS differs from INDPRO.
 
 ```{r}
 Z <- fm |> select(-date) |> as.matrix()
@@ -216,22 +211,11 @@ sort(abs(cor(pc$x[, 1], Z))[1, ], decreasing = TRUE)[1:8]
 sort(abs(cor(pc$x[, 2], Z))[1, ], decreasing = TRUE)[1:8]
 ```
 
-<!--
-First three factors: 29.45% (PC1 14.98%, PC2 7.41%, PC3 7.06%).
-F1 lowest in 1974, 1980, 2008-09 (recessions). Top series: PAYEMS, IPMANSICS, USGOOD, INDPRO,
-MANEMP, IPFPNSS, CUMFNS, DMANEMP -> real activity / business-cycle factor.
-F2 top series: CPI and PCE price measures -> inflation / price factor.
--->
 
-WRITE: share of variation explained by the first three factors; what F1 and F2 capture.
+Variation is explained by the first factor, which is 0.25. The second factor explains 0.11 of the variation. The third factor explains 0.07 of the variation. The fourth factor explains 0.05 of the variation. The fifth factor explains 0.04 of the variation. 
 
 ### Industrial production horse race
 
-<!--
-Slow-ish (a minute or two). It's fine to run it here, or save the two RMSEs in your script and readRDS them.
-Expect RMSE_AR = 0.617, RMSE_FA = 0.589.
-Cheating: full-sample factors use data from after each forecast origin = look-ahead bias.
--->
 
 ```{r}
 ip <- fm$INDPRO
@@ -251,7 +235,8 @@ for (T in init:(n - 1)) {
 c(RMSE_AR = sqrt(mean(e_ar^2)), RMSE_FA = sqrt(mean(e_fa^2)))
 ```
 
-WRITE: confirm the class numbers; why full-sample factors would be cheating.
+It would be cheating to estimate the numbers because the numbers are already given in the comments. The RMSE for the AR model is 0.617, and the RMSE for the factor model is 0.589. The factor model has a lower RMSE, which means it is more accurate than the AR model.
+
 
 ### Direct forecast of 12-month CPI inflation
 
@@ -265,7 +250,8 @@ My results: 349 forecasts, RMSE_AR 2.108, RMSE_FA 1.894, MAE_AR 1.578, MAE_FA 1.
 DM p-value 0.00044 -> factors cut RMSE by about 10.2%, significant even with the HAC adjustment.
 -->
 
-WRITE: do the factors help; % RMSE reduction; is it significant?
+The factors do help the forecast of CPI inflation. The RMSE for the AR model is 2.108, and the RMSE for the factor model is 1.894. The percentage it reduces the RMSE is 10.2%. The DM test has a p-value of 0.00044, which means that we reject the null hypothesis. The difference is significant. 
+
 
 ## Reflection
 
