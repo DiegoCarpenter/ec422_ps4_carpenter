@@ -253,13 +253,7 @@ DM p-value 0.00044 -> factors cut RMSE by about 10.2%, significant even with the
 The factors do help the forecast of CPI inflation. The RMSE for the AR model is 2.108, and the RMSE for the factor model is 1.894. The percentage it reduces the RMSE is 10.2%. The DM test has a p-value of 0.00044, which means that we reject the null hypothesis. The difference is significant. 
 
 
+
 ## Reflection
 
-<!--
-Idea that kept coming up: shrinkage (BVAR), equal weights (combination), and factors (121 series
--> 3) all limit how many things are estimated freely, trading a little bias for a big cut in
-estimation variance. Same reason the VAR(1) and seasonal random walk are hard to beat.
-Write 4-6 sentences in your own words.
--->
-
-WRITE: 4–6 sentences.
+After running these difference horse races I learned that shrinkage, equal weights, and factors all limit how many things are estimated freely. Also that simple models are hard to beat because they have less estimation variance. The more complex models have more parameters to estimate, which can lead to overfitting and worse out-of-sample performance. I also learned that the DM test is a useful tool for comparing forecast accuracy between models, this came up more than once.  
