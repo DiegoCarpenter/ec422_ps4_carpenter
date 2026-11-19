@@ -79,13 +79,7 @@ liquor_fit |>
 
 ### The horse race
 
-<!--
-2.3a: 336 months (1992 Jan - 2019 Dec); 336 - 120 + 1 = 217 training samples, drop last -> 216 origins.
-2.3b: first forecast 2002 Jan, last forecast 2019 Dec.
-If you didn't commit liquor_cv_fit.rds (too big), the readRDS of liquor_cv_fc.rds below is all you need.
--->
-
-WRITE: number of forecast origins (216) and dates of first and last forecast.
+There will be 216 forecasts origins considered for this TS-CV. 
 
 ```{r}
 liquor_cv_fc <- readRDS("results/liquor_cv_fc.rds")
@@ -95,7 +89,7 @@ liquor_cv_fc |>
   knitr::kable(digits = 2)
 ```
 
-WRITE: which model is most accurate; do RMSE and MAE agree?
+The most accurate model is the ARIMA model, with an RMSE of 0.042 and an MAE of 0.033. The two metrics seem to agree because they are very close in numbers. 
 
 ### Diebold–Mariano tests
 
@@ -112,12 +106,9 @@ forecast::dm.test(liquor_errs$arima, liquor_errs$ets,    h = 1, power = 2)
 forecast::dm.test(liquor_errs$arima, liquor_errs$snaive, h = 1, power = 2)
 ```
 
-<!--
-Null = equal accuracy. Small p-value -> real difference. Large p-value -> statistical tie even if
-one RMSE is lower. Base the "which would you use" answer on this.
--->
+The DM statistic for the ARIMA vs ETS test is 2.08, with a p-value of 0.037. This means that we reject the null hypothesis. The DM statistic for the ARIMA vs SNAIVE test is 4.12, with a p-value of 0.00004. This means that we also reject the null hypothesis.If I was the chain i would use the ARIMA model because it is more accurate. 
 
-WRITE: both DM statistics and p-values; conclusion; which model you'd use.
+
 
 ## Forecast Combination
 

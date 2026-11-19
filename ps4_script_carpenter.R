@@ -52,7 +52,7 @@ liquor_fit |>
   features(.innov, ljung_box, lag = 24, dof = 2)   
 
 
-# ---- 2.3a TS-CV (SLOW: 10+ minutes) ----
+# ---- 2.3a TS-CV 
 liquor_cv <- liquor |>
   stretch_tsibble(.init = 120, .step = 1) |>
   filter(.id < max(.id))
@@ -63,15 +63,14 @@ liquor_cv_fit <- liquor_cv |>
         arima  = ARIMA(log(sales)))
 
 saveRDS(liquor_cv_fit, "results/liquor_cv_fit.rds")
-# In a new session, skip the model() step above and instead run:
-# liquor_cv_fit <- readRDS("results/liquor_cv_fit.rds")
 
-# ---- 2.3b One-step forecasts and accuracy ----
+
+# ---- 2.3b One-step forecasts and accuracy 
 liquor_cv_fc <- liquor_cv_fit |>
   forecast(h = 1)
-saveRDS(liquor_cv_fc, "results/liquor_cv_fc.rds")   # small backup in case the fit file is too big for GitHub
+saveRDS(liquor_cv_fc, "results/liquor_cv_fc.rds")  
 
-range(liquor_cv_fc$Month)   # first and last forecast dates
+range(liquor_cv_fc$Month)   
 
 liquor_cv_fc |>
   accuracy(liquor, measures = list(RMSE = RMSE, MAE = MAE))
@@ -88,11 +87,9 @@ liquor_errs <- liquor_cv_fc |>
 forecast::dm.test(liquor_errs$arima, liquor_errs$ets,    h = 1, power = 2)
 forecast::dm.test(liquor_errs$arima, liquor_errs$snaive, h = 1, power = 2)
 
-# COMMIT #3: "Part 2: TS-CV horse race and DM tests"
 
-# =====================================================================
 # Part 3 – Forecast combination
-# =====================================================================
+
 
 liquor_combo_fc <- liquor_cv_fit |>
   mutate(combo = (arima + ets) / 2) |>
